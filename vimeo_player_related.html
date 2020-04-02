@@ -22,7 +22,7 @@ function getParameterByName(name, url) {
 }
 
 function webViewBridge() {
-  var vid = '364053583'//getParameterByName('vid');
+  var vid = getParameterByName('vid');
   if (!vid) {
     window.postMessage('No `vid` parameter found, not loading Vimeo iframe');
     return;
@@ -61,9 +61,9 @@ function webViewBridge() {
     sendEvent('ready');
   });
 
-  player.api(message, function(data) {
-    sendEvent(message, data);
-  });
+  <!-- player.api(message, function(data) { -->
+  <!--   sendEvent(message, data); -->
+  <!-- }); -->
   function sendEvent(evt, data) {
     console.log('control here');
     // Passes events through the bridge
