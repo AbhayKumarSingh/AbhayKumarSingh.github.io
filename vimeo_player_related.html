@@ -63,13 +63,12 @@ function webViewBridge() {
   <!--   sendEvent(message, data); -->
   <!-- }); -->
   function sendEvent(evt, data) {
-    console.log('control here');
     // Passes events through the bridge
     var payload = {
       name: evt,
       data: data
     };
-    window.postMessage(JSON.stringify(payload));
+    window.ReactNativeWebView.postMessage(JSON.stringify(payload));
   }
 }
 
