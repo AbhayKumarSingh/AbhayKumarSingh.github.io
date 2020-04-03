@@ -28,7 +28,7 @@ function webViewBridge() {
   // Generate iframe based on `vid` parameter
   var iframe;
   iframe = document.createElement('iframe');
-  iframe.src = 'https://player.vimeo.com/video/' + vid;
+  iframe.src = 'https://player.vimeo.com/video/' + vid + '?playsinline=0';
   iframe.width = '100%';
   iframe.height = '98%';
   iframe.frameBorder = '0';
