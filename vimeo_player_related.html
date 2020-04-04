@@ -48,6 +48,15 @@ function webViewBridge() {
     player.on('ended', function(data) {
       sendEvent('finish', data);
     });
+    player.on('error', function(data) {
+      sendEvent('error', data);
+    });
+    <!-- window.addEventListener("message", function(message){ -->
+    <!--   if(message.data.method === 'getDuration') -->
+    <!--     sendEvent('getDuration', message.data); -->
+    <!--   else if(message.data.method === 'pause') -->
+    <!--     sendEvent('pause', message.data); -->
+    <!-- }); -->
     sendEvent('ready');
   });
 
@@ -69,16 +78,18 @@ function webViewBridge() {
     };
     window.ReactNativeWebView.postMessage(JSON.stringify(payload));
   }
+
+  return player;
 }
 
-webViewBridge();
+var player = webViewBridge();
 
-window.addEventListener("message", message => {
-    var payload = {
-      name: 'getDuration',
-      data: message.data
-    };
-  window.ReactNativeWebView.postMessage(JSON.stringify(payload));
-});
+<!-- window.addEventListener("message", message => { -->
+<!--     var payload = { -->
+<!--       name: 'getDuration', -->
+<!--       data: message.data -->
+<!--     }; -->
+<!--   window.ReactNativeWebView.postMessage(JSON.stringify(payload)); -->
+<!-- }); -->
 
 </script>
