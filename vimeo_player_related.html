@@ -20,6 +20,16 @@ function getParameterByName(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+function sendEvent(typeHandlers, name, data) {
+  // Passes events through the bridge
+  var payload = {
+    typeHandlers: typeHandlers,
+    name: name,
+    data: data
+  };
+  window.ReactNativeWebView.postMessage(JSON.stringify(payload));
+}
+
 function webViewBridge() {
   var vid = getParameterByName('vid');
   if (!vid) {
@@ -37,27 +47,34 @@ function webViewBridge() {
   // through the bridge.
   player.ready().then(function() {
     player.on('play', function(data) {
-      sendEvent('play', data);
+      sendEvent('eventHandlers', 'play', data);
     });
     player.on('timeupdate', function(data) {
-      sendEvent('playProgress', data);
+      sendEvent('eventHandlers', 'timeupdate', data);
     });
     player.on('pause', function(data) {
-      sendEvent('pause', data);
+      sendEvent('eventHandlers', 'pause', data);
     });
     player.on('ended', function(data) {
-      sendEvent('finish', data);
+      sendEvent('eventHandlers', 'ended', data);
     });
-    player.on('error', function(data) {
-      sendEvent('error', data);
-    });
+
+    <!-- player.on('error', function(data) { -->
+    <!--   sendEvent('error', data); -->
+    <!-- }); -->
+
     <!-- window.addEventListener("message", function(message){ -->
     <!--   if(message.data.method === 'getDuration') -->
     <!--     sendEvent('getDuration', message.data); -->
     <!--   else if(message.data.method === 'pause') -->
     <!--     sendEvent('pause', message.data); -->
     <!-- }); -->
-    sendEvent('ready');
+
+    <!-- window.addEventListener("message", function(message){ -->
+    <!--     console.log(message); -->
+    <!-- }); -->
+
+    sendEvent('eventHandlers', 'ready');
   });
 
   <!-- Remember to change the following code according to Player.js-->
@@ -70,19 +87,24 @@ function webViewBridge() {
   <!--   console.log('title:', title); -->
   <!-- }); -->
 
-  function sendEvent(evt, data) {
-    // Passes events through the bridge
-    var payload = {
-      name: evt,
-      data: data
-    };
-    window.ReactNativeWebView.postMessage(JSON.stringify(payload));
-  }
 
   return player;
 }
 
 var player = webViewBridge();
+
+function executeMethod(method, params){
+  try {
+    parsedParams = JSON.parse(params);
+  } catch (err) {
+    return;
+  }
+  player[method](...parsedParams).then(function(returnedData){
+    sendEvent('returnHandlers', method, returnedData);
+  }).catch(function(error){
+    sendEvent('errorHandlers', method, error);
+  });
+}
 
 <!-- window.addEventListener("message", message => { -->
 <!--     var payload = { -->
