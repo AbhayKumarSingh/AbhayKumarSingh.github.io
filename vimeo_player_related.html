@@ -27,6 +27,7 @@ function sendEvent(typeHandlers, name, data) {
     name: name,
     data: data
   };
+  console.log(payload);
   window.ReactNativeWebView.postMessage(JSON.stringify(payload));
 }
 
