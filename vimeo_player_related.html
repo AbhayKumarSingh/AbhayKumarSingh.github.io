@@ -80,7 +80,7 @@ var executeMethod = function (method, params){
 };
 
 window.addEventListener("message", message => {
-  console.log(message);
+  console.log(message.data);
   let parsedExecutionMaterial;
   try {
     parsedExecutionMaterial = JSON.parse(message.data);
