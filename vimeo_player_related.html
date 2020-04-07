@@ -27,7 +27,6 @@ function sendEvent(typeHandlers, name, data) {
     name: name,
     data: data
   };
-  console.log(payload);
   window.ReactNativeWebView.postMessage(JSON.stringify(payload));
 }
 
@@ -64,30 +63,8 @@ function webViewBridge() {
     <!--   sendEvent('error', data); -->
     <!-- }); -->
 
-    <!-- window.addEventListener("message", function(message){ -->
-    <!--   if(message.data.method === 'getDuration') -->
-    <!--     sendEvent('getDuration', message.data); -->
-    <!--   else if(message.data.method === 'pause') -->
-    <!--     sendEvent('pause', message.data); -->
-    <!-- }); -->
-
-    <!-- window.addEventListener("message", function(message){ -->
-    <!--     console.log(message); -->
-    <!-- }); -->
-
     sendEvent('eventHandlers', 'ready');
   });
-
-  <!-- Remember to change the following code according to Player.js-->
-  <!-- player.api(message, function(data) { -->
-  <!--   sendEvent(message, data); -->
-  <!-- }); -->
-
-  <!-- New method is show below-->
-  <!-- player.getVideoTitle().then(function(title) { -->
-  <!--   console.log('title:', title); -->
-  <!-- }); -->
-
 
   return player;
 }
@@ -103,6 +80,7 @@ var executeMethod = function (method, params){
 };
 
 window.addEventListener("message", message => {
+  console.log(message);
   let parsedExecutionMaterial;
   try {
     parsedExecutionMaterial = JSON.parse(message.data);
