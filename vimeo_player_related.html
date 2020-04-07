@@ -93,25 +93,23 @@ function webViewBridge() {
 
 var player = webViewBridge();
 
-function executeMethod(method, params){
-  try {
-    parsedParams = JSON.parse(params);
-  } catch (err) {
-    return;
-  }
-  player[method](...parsedParams).then(function(returnedData){
+var executeMethod = function (method, params){
+  player[method](...params).then(function(returnedData){
     sendEvent('returnHandlers', method, returnedData);
   }).catch(function(error){
     sendEvent('errorHandlers', method, error);
   });
-}
+};
 
-<!-- window.addEventListener("message", message => { -->
-<!--     var payload = { -->
-<!--       name: 'getDuration', -->
-<!--       data: message.data -->
-<!--     }; -->
-<!--   window.ReactNativeWebView.postMessage(JSON.stringify(payload)); -->
-<!-- }); -->
+window.addEventListener("message", message => {
+  let parsedExecutionMaterial;
+  try {
+    parsedExecutionMaterial = JSON.parse(message.data);
+  } catch (err) {
+    return;
+  }
+  if(parsedExecutionMaterial.customMethod)
+      executeMethod(parsedExecutionMaterial.customMethod, parsedExecutionMaterial.params);
+});
 
 </script>
