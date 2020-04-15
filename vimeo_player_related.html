@@ -36,7 +36,7 @@ function webViewBridge() {
     window.postMessage('No `vid` parameter found, not loading Vimeo iframe');
     return;
   }
-  // Generate iframe based on `vid` parameter
+  // Populate iframe based on `vid` parameter
   var iframe;
   iframe = document.getElementById('player');
   iframe.src = 'https://player.vimeo.com/video/' + vid + '?playsinline=0';
@@ -59,10 +59,6 @@ function webViewBridge() {
       sendEvent('eventHandlers', 'ended', data);
     });
 
-    <!-- player.on('error', function(data) { -->
-    <!--   sendEvent('error', data); -->
-    <!-- }); -->
-
     sendEvent('eventHandlers', 'ready');
   });
 
@@ -80,7 +76,6 @@ var executeMethod = function (method, params){
 };
 
 window.addEventListener("message", message => {
-  console.log(message.data);
   let parsedExecutionMaterial;
   try {
     parsedExecutionMaterial = JSON.parse(message.data);
