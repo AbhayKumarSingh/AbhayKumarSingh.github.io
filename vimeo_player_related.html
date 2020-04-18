@@ -3,7 +3,7 @@
   <script src="https://player.vimeo.com/api/player.js"></script>
 </head>
   <body style="height: 100%; width: 100%;">
-    <iframe id='player' width='100%' height='98%' frameBorder='0' allow='autoplay; fullscreen' webkitallowfullscreen allowfullscreen mozallowfullscreen>
+    <iframe id='player' width='100%' height='98%' frameBorder='0' allow='fullscreen' webkitallowfullscreen allowfullscreen mozallowfullscreen>
     </iframe>
   </body>
   <script>
@@ -39,7 +39,7 @@ function webViewBridge() {
   // Populate iframe based on `vid` parameter
   var iframe;
   iframe = document.getElementById('player');
-  iframe.src = 'https://player.vimeo.com/video/' + vid + '?playsinline=0';
+  iframe.src = 'https://player.vimeo.com/video/' + vid + '?playsinline=0&loop=1';
   //iframe.id = PLAYER_ID;
   document.body.appendChild(iframe);
   var player = new Vimeo.Player(iframe);
