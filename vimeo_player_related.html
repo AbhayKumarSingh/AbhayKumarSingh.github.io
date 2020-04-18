@@ -39,7 +39,7 @@ function webViewBridge() {
   // Populate iframe based on `vid` parameter
   var iframe;
   iframe = document.getElementById('player');
-  iframe.src = 'https://player.vimeo.com/video/' + vid + '?playsinline=0&loop=1';
+  iframe.src = 'https://player.vimeo.com/video/' + vid + '?loop=1';
   //iframe.id = PLAYER_ID;
   document.body.appendChild(iframe);
   var player = new Vimeo.Player(iframe);
